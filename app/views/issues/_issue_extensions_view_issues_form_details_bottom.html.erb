@@ -1,0 +1,54 @@
+<%
+# Issue Extensions plugin for Redmine
+# Copyright (C) 2010-2012  Takashi Takebayashi
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+-%>
+<% if IssueExtensions.enabled?(issue.project) -%>
+<% relation_issue_id = params[:relation_issue].presence || params[:relation_issue_id] %>
+<hr />
+<div id="issue_extensions_form">
+  <strong><%= l(:issue_extensions) %></strong><br />
+  <%= hidden_field_tag :relation_issue_id, relation_issue_id %>
+  <%= button_tag l(:button_assigned_to_oneself), :type => 'button', :onclick => 'issueExtensionsSelectOneself()' %>
+  <%= javascript_tag do %>
+    function issueExtensionsSelectOneself() {
+      var select = document.getElementById('issue_assigned_to_id');
+      if (!select) { return; }
+      var oneselfValue = '<%= User.current.id %>';
+      for (var i = 0; i < select.options.length; i++) {
+        if (select.options[i].value === oneselfValue) {
+          select.selectedIndex = i;
+          break;
+        }
+      }
+    }
+    <% if params[:duplicate_issue].present? && params[:action] == 'new' %>
+    // 複製時はステータス・日付・進捗率をクリアする
+    // (トラッカー変更などでフォームが再描画されたときは、利用者の入力を消さないよう何もしない)
+    (function() {
+      ['issue_status_id', 'issue_done_ratio'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) { el.selectedIndex = 0; }
+      });
+      ['issue_start_date', 'issue_due_date'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) { el.value = ''; }
+      });
+    })();
+    <% end %>
+  <% end %>
+</div>
+<% end -%>

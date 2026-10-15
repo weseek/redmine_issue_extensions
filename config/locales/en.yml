@@ -4,17 +4,11 @@ en:
 
   button_assigned_to_oneself: Assigned to oneself
 
-  field_old_status: Alpha
-  field_new_status: Beta
-
   label_add_duplicate_issue: Add duplicated this issue
 
-  label_add_relation: Add related
   label_add_relation_issue: Add related this issue
-  label_searched_issues: Searched issues
 
   permission_manage_issue_extensions: Manage Issue Extensions
 
   project_module_issue_extensions: Issue Extensions
 
-  text_changed_from_the_alpha_to_the_beta: When assigned to the person is set, status is automatically changed from the [ alpha ] to the [ beta ].

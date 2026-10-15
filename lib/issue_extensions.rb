@@ -1,5 +1,5 @@
 # Issue Extensions plugin for Redmine
-# Copyright (C) 2010  Takashi Takebayashi
+# Copyright (C) 2010-2012  Takashi Takebayashi
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -14,17 +14,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-class IssueExtensionsStatusFlow < ActiveRecord::Base
-  belongs_to :project
 
-  def self.find_or_create project_id, user_id
-    status_flow = IssueExtensionsStatusFlow.find :first, :conditions => ['project_id = ?', project_id]
-    unless status_flow
-      status_flow = IssueExtensionsStatusFlow.new
-      status_flow.project_id = project_id
-      status_flow.updated_by = user_id
-      status_flow.save!
-    end
-    return status_flow
+module IssueExtensions
+  def self.enabled?(project)
+    project.present? && project.module_enabled?(:issue_extensions).present?
   end
 end

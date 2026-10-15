@@ -1,40 +1,41 @@
 = Redmine Issue Extensions Plugin
 
-This is a plugin for Redmine
+This is a plugin for Redmine.
+
+This is a fork of planio-gmbh/redmine_issue_extensions 0.2.0, modified by WESEEK to work with Redmine 5.1 or later.
 
 === Function
 
-1. When the issue is edited, assigned to the person is set to the issue, and the state of the issue is changed to entry beta status if the state of the issue is entry alpha status, except when the issue bulk edit.
+1. When the issue is closed, the progress rate is changed to 100% (including bulk edit).
+   Nothing is done when the done ratio is calculated from the issue status, or when the done ratio field is disabled for the tracker.
 
-2. When the issue is edited, issue is closed, the progress rate is changed to 100%.
+2. When the issue is edited, those who edit it about the issue are added to the watcher of the issue, except when the issue bulk edit.
 
-3. When the issue is edited, those who edit it about the issue are added to the watcher of the issue, except when the issue bulk edit.
+3. The relating issues can be easily made.
 
-4. The relating issues can be easily made.
+4. When the issue is created and edited, assigned to oneself by clicking [Assigned to oneself] button.
 
-5. When the issue is relating, issue can be retrieved according to the title.
+5. The duplicating issues can be easily made.
 
-6. When the issue is created and edited, assigned to oneself by clicking [Assigned to oneself] button.
+The following functions of 0.2.0 have been removed.
 
-7. The duplicating issues can be easily made.
+* Changing the issue status automatically when the assignee is set (Issue Extensions tab in the project settings).
+  The table issue_extensions_status_flows and its migration are kept as they are.
+* Searching issues by the title when relating issues (use the standard related issue field of Redmine instead).
 
 === Plugin installation
 
-1. Copy the plugin directory into the vendor/plugins directory
+1. Copy the plugin directory into plugins/redmine_issue_extensions.
 
-2. Migrate plugin: rake db:migrate_plugins RAILS_ENV=production
+2. Migrate plugin: bundle exec rake redmine:plugins:migrate RAILS_ENV=production
 
-3. Start Redmine
+3. Start Redmine.
 
-4. Enable the permission on the role and permissions setting page.
+4. Enable the module on the project setting page.
 
-5. Enable the module on the project setting page.
+=== Requirements
 
-6. Goto Issue Extensions setting tab and select the status.
-
-=== Note
-
-1. This plugin works only Redmine 2.0.0 or higher and production mode(config.cache_classes = true).
+Redmine 5.1 or higher
 
 === Language contributors
 
