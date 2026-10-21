@@ -72,6 +72,8 @@ module IssueExtensions
 
       from_issue = Issue.visible.find_by(:id => relation_issue_id.to_i)
       return if from_issue.nil? || from_issue == issue
+      # Redmine 標準の関連付けと同じく、関連元のチケットのプロジェクトでも関連の管理権限を必要とする
+      return unless User.current.allowed_to?(:manage_issue_relations, from_issue.project)
 
       relation = IssueRelation.new(:relation_type => IssueRelation::TYPE_RELATES)
       relation.issue_from = from_issue
